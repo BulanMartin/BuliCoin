@@ -4,9 +4,9 @@ import datetime
 class BuliCoin(Blockchain):
 
     def __init__(self):
-
         # Add transactions to the block structure and let parent class create the first block
         # using overridden method create_block()
+
         self.transactions = []
         super().__init__()
         
@@ -26,6 +26,16 @@ class BuliCoin(Blockchain):
 
         self.chain.append(block)
         return block
+
+    def add_transaction(self, sender, receiver, amount):
+        # Append new transaction to the transactions parameter,
+        # which will be added to the next block
+
+        self.transactions.append({
+            'sender': sender,
+            'receiver': receiver,
+            'amount': amount
+        })
 
 coin = BuliCoin()
 print(str(coin.chain))
