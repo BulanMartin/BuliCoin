@@ -1,0 +1,2 @@
+# BuliCoin
+My own cryptocurrency
