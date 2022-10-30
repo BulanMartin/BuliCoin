@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   blockchain:
-    container_name: "blockchain-container"
+    container_name: "bulicoin-container"
     build: ./
     ports:
       - 5000:5000
