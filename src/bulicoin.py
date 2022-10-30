@@ -1,5 +1,6 @@
 from blockchain import Blockchain
 import datetime
+from urllib.parse import urlparse
 
 class BuliCoin(Blockchain):
 
@@ -36,6 +37,12 @@ class BuliCoin(Blockchain):
             'receiver': receiver,
             'amount': amount
         })
+
+    def add_node(self, address):
+        # Add new node in the network (combination of IP and port)
+
+        parsed_url = urlparse(address)
+        self.nodes.add(parsed_url.netloc)
 
 coin = BuliCoin()
 print(str(coin.chain))
