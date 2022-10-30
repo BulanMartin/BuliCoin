@@ -1,12 +1,12 @@
 from flask import Flask, jsonify
-from blockchain import Blockchain
+from bulicoin import BuliCoin
 
 # Initiate Flask server
 
 app = Flask(__name__)
 
 # Create blockchain
-blockchain = Blockchain()
+blockchain = BuliCoin()
 
 # Mine a new block and add it to the end of the blockchain
 @app.route('/mine_block', methods=['GET'])
@@ -30,7 +30,8 @@ def mine_block():
                 'timestamp': block['timestamp'],
                 'nonce': block['nonce'],
                 'previous_hash': block['prev_hash'],
-                'current_complexity': block['current_complexity']}
+                'current_complexity': block['current_complexity'],
+                'transactions': block['transactions']}
 
     # Return response as JSON file
     return jsonify(response), 200

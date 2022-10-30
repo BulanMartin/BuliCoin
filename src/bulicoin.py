@@ -43,6 +43,3 @@ class BuliCoin(Blockchain):
 
         parsed_url = urlparse(address)
         self.nodes.add(parsed_url.netloc)
-
-coin = BuliCoin()
-print(str(coin.chain))
