@@ -25,6 +25,8 @@ class BuliCoin(Blockchain):
                  'transactions': self.transactions
                 }
 
+        self.transactions = []
+        
         self.chain.append(block)
         return block
 
@@ -37,6 +39,9 @@ class BuliCoin(Blockchain):
             'receiver': receiver,
             'amount': amount
         })
+
+        previous_block = self.get_prev_block()
+        return previous_block['index'] + 1
 
     def add_node(self, address):
         # Add new node in the network (combination of IP and port)

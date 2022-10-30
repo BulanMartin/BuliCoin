@@ -1,10 +1,12 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from bulicoin import BuliCoin
+from uuid import uuid4
 
 # Initiate Flask server
 
 app = Flask(__name__)
 
+node_address = str(uuid4()).replace('-', '')
 # Create blockchain
 blockchain = BuliCoin()
 
@@ -20,6 +22,9 @@ def mine_block():
 
     # Get has of the previous block and current nonce
     prev_hash = blockchain.hash(prev_block, nonce)
+
+    # Give miner 1 BuliCoin
+    blockchain.add_transaction(sender = "BuliCoin network", receiver = node_address, amount = 1)
 
     # Create new block
     block = blockchain.create_block(nonce, prev_hash)
@@ -70,6 +75,19 @@ def validate():
     response = {'Chain valid': blockchain.validate(blockchain.chain)}
 
     return jsonify(response), 200
+
+# Add new transaction
+@app.route('/add_transaction', methods=['POST'])
+def add_transaction():
+    json = request.get_json()
+    transaction_keys = ['sender', 'receiver', 'amount']
+
+    if not all (key in json for key in transaction_keys):
+        return 'Some elements of the transaction are missing', 400
+
+    index = blockchain.add_transaction(json['sender'], json['receiver'], json['amount'])
+    response = {'message': f'This transaction will be added to block {index}'}
+    return jsonify(response), 201
 
 # Run server
 app.run(host = '0.0.0.0', port = 5000)
