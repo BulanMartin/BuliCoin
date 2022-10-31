@@ -89,5 +89,29 @@ def add_transaction():
     response = {'message': f'This transaction will be added to block {index}'}
     return jsonify(response), 201
 
+# Connect current node to other nodes in the network
+# (node is defined as IP and port)
+# Required JSON format:
+#{
+#    "nodes": ["http://127.0.0.1:5001",
+#              "http://127.0.0.1:5002"]
+#}
+@app.route('/connect_node', methods=['POST'])
+def connect_node():
+
+    json = request.get_json()
+    nodes = json.get('nodes')
+
+    if nodes is None:
+        return "Node missing", 400
+
+    for node in nodes:
+        blockchain.add_node(node)
+
+    response = {'message': 'All the modes are connected!',
+                'nodes in blockchain': list(blockchain.nodes)}
+
+    return jsonify(response), 201
+
 # Run server
 app.run(host = '0.0.0.0', port = 5000)
