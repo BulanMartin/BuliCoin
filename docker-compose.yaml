@@ -1,12 +1,46 @@
 version: '3.8'
 
 services:
-  blockchain:
-    container_name: "bulicoin-container"
+  blockchain0:
+    container_name: "bulicoin-container0"
     build: ./
+    environment:
+    - PORT=5000
     ports:
       - 5000:5000
     volumes:
       - ./src:/src
     stdin_open: true
     tty: true
+
+  blockchain1:
+    container_name: "bulicoin-container1"
+    build: ./
+    environment:
+    - PORT=5000
+    ports:
+      - 5001:5000
+    volumes:
+      - ./src:/src
+    stdin_open: true
+    tty: true
+
+  blockchain2:
+    container_name: "bulicoin-container2"
+    build: ./
+    environment:
+    - PORT=5000
+    ports:
+      - 5002:5000
+    volumes:
+      - ./src:/src
+    stdin_open: true
+    tty: true
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.105.0/24"
+          gateway: "192.168.105.1"

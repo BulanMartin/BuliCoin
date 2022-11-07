@@ -1,6 +1,10 @@
 import datetime
 import hashlib
 import json
+from urllib import response
+from collections.abc import Mapping
+import requests
+from scapy.all import *
 
 class Blockchain:
 
@@ -48,6 +52,29 @@ class Blockchain:
 
         return hashlib.sha256(json.dumps(str(prev_block) + str(nonce), sort_keys=True).encode()).hexdigest()
 
+    def replace_chain(self):
+        # Check length of all chains in the network and replace chain of the current node
+        # with the longest chain (if there is any)
+
+        network = self.nodes
+        print(network)
+        longest_chain = None
+        max_length = len(self.chain)
+        for node in network:
+            print(node)
+            response = requests.get(f'http://{node}/get_chain')
+            if response.status_code == 200:
+                length = response.json()['length']
+                chain = response.json()['chain']
+                if length > max_length and self.is_chain_valid(chain):
+                    max_length = length
+                    longest_chain = chain
+
+        if longest_chain:
+            self.chain = longest_chain
+            return True
+
+        return False
 
     def validate(self, chain):
         # Loop through the blockchain and check its validity
@@ -78,4 +105,16 @@ class Blockchain:
             block_index += 1
 
         return True
+
+    def get_nodes(self):
+        
+        request = Ether(dst="ff:ff:ff:ff:ff:ff") / ARP(pdst="192.168.105.0/24")
+
+        ans, unans = srp(request, timeout=2, retry=1)
+        result = []
+
+        for sent, received in ans:
+            result.append({'IP': received.psrc, 'MAC': received.hwsrc})
+
+        return result
 

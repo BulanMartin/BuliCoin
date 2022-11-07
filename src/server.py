@@ -1,12 +1,17 @@
 from flask import Flask, jsonify, request
 from bulicoin import BuliCoin
 from uuid import uuid4
+from collections.abc import Mapping
+import os
 
 # Initiate Flask server
 
 app = Flask(__name__)
 
 node_address = str(uuid4()).replace('-', '')
+
+node_port = os.environ['PORT']
+
 # Create blockchain
 blockchain = BuliCoin()
 
@@ -113,5 +118,27 @@ def connect_node():
 
     return jsonify(response), 201
 
+
+# Call replace_chain method of the blockchain class and return JSON information
+# if current chain was replaced
+@app.route('/replace_chain', methods=['GET'])
+def replace_chain():
+
+    is_chain_replaced = blockchain.replace_chain()
+
+    if is_chain_replaced:
+        response = {'message': 'The nodes had different chains. Longer chain was accepted.',
+                    'new_chain': blockchain.chain}
+    else:
+        response = {'message': 'OK, chain is the largest',
+                    'actual_chain': blockchain.chain}
+
+    return jsonify(response), 200
+
+@app.route('/get_nodes', methods=['GET'])
+def get_nodes():
+    nodes = blockchain.get_nodes()
+    return jsonify(nodes), 200
+
 # Run server
-app.run(host = '0.0.0.0', port = 5000)
+app.run(host = '0.0.0.0', port = node_port)
