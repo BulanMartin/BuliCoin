@@ -3,6 +3,7 @@ import hashlib
 import json
 from urllib import response
 from collections.abc import Mapping
+from collections import OrderedDict
 import requests
 from scapy.all import *
 
@@ -17,12 +18,13 @@ class Blockchain:
     def create_block(self, nonce, prev_hash):
         # Create new block and append it to the blockchain
 
-        block = {'index': len(self.chain)+1,
+        block = OrderedDict(
+                {'index': len(self.chain)+1,
                  'timestamp': str(datetime.datetime.now()),
                  'nonce': nonce,
                  'prev_hash': prev_hash,
                  'current_complexity': self.leading_zeros
-                }
+                })
 
         self.chain.append(block)
         return block
@@ -56,17 +58,25 @@ class Blockchain:
         # Check length of all chains in the network and replace chain of the current node
         # with the longest chain (if there is any)
 
-        network = self.nodes
+        network = self.get_nodes()
         print(network)
         longest_chain = None
         max_length = len(self.chain)
         for node in network:
             print(node)
-            response = requests.get(f'http://{node}/get_chain')
+            response = requests.get(f'http://{node}:5000/get_chain')
+
+            print(response)
+
             if response.status_code == 200:
                 length = response.json()['length']
                 chain = response.json()['chain']
-                if length > max_length and self.is_chain_valid(chain):
+
+                print(length)
+                print(chain)
+                print(self.validate(chain))
+
+                if length > max_length and self.validate(chain):
                     max_length = length
                     longest_chain = chain
 
@@ -78,6 +88,8 @@ class Blockchain:
 
     def validate(self, chain):
         # Loop through the blockchain and check its validity
+
+        print(chain)
 
         prev_block = chain[0]
         block_index = 1
@@ -108,13 +120,16 @@ class Blockchain:
 
     def get_nodes(self):
         
-        request = Ether(dst="ff:ff:ff:ff:ff:ff") / ARP(pdst="192.168.105.0/24")
+        request = Ether(dst="ff:ff:ff:ff:ff:ff") / ARP(pdst="192.168.105.0/29")
 
         ans, unans = srp(request, timeout=2, retry=1)
         result = []
 
         for sent, received in ans:
-            result.append({'IP': received.psrc, 'MAC': received.hwsrc})
+            result.append(received.psrc)
+
+        # remove default gateway
+        result.remove("192.168.105.1")
 
         return result
 

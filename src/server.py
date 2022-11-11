@@ -3,6 +3,7 @@ from bulicoin import BuliCoin
 from uuid import uuid4
 from collections.abc import Mapping
 import os
+import json
 
 # Initiate Flask server
 
@@ -138,7 +139,9 @@ def replace_chain():
 @app.route('/get_nodes', methods=['GET'])
 def get_nodes():
     nodes = blockchain.get_nodes()
+    blockchain.nodes = nodes
+
     return jsonify(nodes), 200
 
 # Run server
-app.run(host = '0.0.0.0', port = node_port)
+app.run(host = '0.0.0.0', port = node_port, debug=True)

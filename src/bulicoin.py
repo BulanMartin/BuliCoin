@@ -1,6 +1,7 @@
 from blockchain import Blockchain
 import datetime
 from urllib.parse import urlparse
+from collections import OrderedDict
 
 class BuliCoin(Blockchain):
 
@@ -17,13 +18,14 @@ class BuliCoin(Blockchain):
         # Create new block and append it to the blockchain
         # Override parent method (transactions added)
 
-        block = {'index': len(self.chain)+1,
+        block = OrderedDict({
+                 'index': len(self.chain)+1,
                  'timestamp': str(datetime.datetime.now()),
                  'nonce': nonce,
                  'prev_hash': prev_hash,
                  'current_complexity': self.leading_zeros,
                  'transactions': self.transactions
-                }
+                })
 
         self.transactions = []
         
