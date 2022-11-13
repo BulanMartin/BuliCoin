@@ -2,6 +2,8 @@ from blockchain import Blockchain
 import datetime
 from urllib.parse import urlparse
 from collections import OrderedDict
+import hashlib
+import json
 
 class BuliCoin(Blockchain):
 
@@ -31,6 +33,27 @@ class BuliCoin(Blockchain):
         
         self.chain.append(block)
         return block
+
+    def hash(self, prev_block, nonce):
+        # Get SHA256 hash of previous block and nonce number
+
+        # Each key:value pair must be handeled separately so as the key order is preserved (order of
+        # elements is not preserved by JSON format)
+
+        transactions_string = ''
+        for transaction in prev_block['transactions']:
+            transactions_string += str(transaction['sender'])
+            transactions_string += str(transaction['receiver'])
+            transactions_string += str(transaction['amount'])
+
+        return hashlib.sha256(json.dumps(
+            str(prev_block['index']) + 
+            str(prev_block['timestamp']) + 
+            str(prev_block['nonce']) + 
+            str(prev_block['prev_hash']) + 
+            str(prev_block['current_complexity']) + 
+            transactions_string +
+            str(nonce), sort_keys=True).encode()).hexdigest()
 
     def add_transaction(self, sender, receiver, amount):
         # Append new transaction to the transactions parameter,

@@ -52,7 +52,9 @@ class Blockchain:
     def hash(self, prev_block, nonce):
         # Get SHA256 hash of previous block and nonce number
 
-        #return hashlib.sha256(json.dumps(str(prev_block) + str(nonce), sort_keys=True).encode()).hexdigest()
+        # Each key:value pair must be handeled separately so as the key order is preserved (order of
+        # elements is not preserved by JSON format)
+        
         return hashlib.sha256(json.dumps(
             str(prev_block['index']) + 
             str(prev_block['timestamp']) + 
@@ -66,22 +68,16 @@ class Blockchain:
         # with the longest chain (if there is any)
 
         network = self.get_nodes()
-        print(network)
+
         longest_chain = None
         max_length = len(self.chain)
         for node in network:
-            print(node)
             response = requests.get(f'http://{node}:5000/get_chain')
 
-            print(response)
 
             if response.status_code == 200:
                 length = response.json()['length']
                 chain = response.json()['chain']
-
-                print(length)
-                print(chain)
-                print(self.validate(chain))
 
                 if length > max_length and self.validate(chain):
                     max_length = length
@@ -95,8 +91,6 @@ class Blockchain:
 
     def validate(self, chain):
         # Loop through the blockchain and check its validity
-
-        print(chain)
 
         prev_block = chain[0]
         block_index = 1
