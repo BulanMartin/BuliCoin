@@ -105,7 +105,8 @@ class Blockchain:
                 return False
 
             nonce = block['nonce']
-            hash_operation = hashlib.sha256(json.dumps(str(prev_block) + str(nonce), sort_keys=True).encode()).hexdigest()
+
+            hash_operation = self.hash(prev_block, nonce)
 
             if hash_operation[:block['current_complexity']] != block['current_complexity']*'0':
                 
