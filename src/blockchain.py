@@ -40,7 +40,7 @@ class Blockchain:
         nonce = 1
         check_nonce = False
         while check_nonce == False:
-            hash_operation = hashlib.sha256(json.dumps(str(prev_block) + str(nonce), sort_keys=True).encode()).hexdigest()
+            hash_operation = self.hash(prev_block, nonce)
 
             if hash_operation[:self.leading_zeros] == self.leading_zeros*'0':
                 check_nonce = True
@@ -52,7 +52,14 @@ class Blockchain:
     def hash(self, prev_block, nonce):
         # Get SHA256 hash of previous block and nonce number
 
-        return hashlib.sha256(json.dumps(str(prev_block) + str(nonce), sort_keys=True).encode()).hexdigest()
+        #return hashlib.sha256(json.dumps(str(prev_block) + str(nonce), sort_keys=True).encode()).hexdigest()
+        return hashlib.sha256(json.dumps(
+            str(prev_block['index']) + 
+            str(prev_block['timestamp']) + 
+            str(prev_block['nonce']) + 
+            str(prev_block['prev_hash']) + 
+            str(prev_block['current_complexity']) + 
+            str(nonce), sort_keys=True).encode()).hexdigest()
 
     def replace_chain(self):
         # Check length of all chains in the network and replace chain of the current node
