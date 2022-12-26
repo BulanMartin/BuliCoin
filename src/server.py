@@ -1,9 +1,10 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from bulicoin import BuliCoin
 from uuid import uuid4
 from collections.abc import Mapping
 import os
 import json
+#from jinja2 import Environment, FileSystemLoader
 
 # Initiate Flask server
 
@@ -12,9 +13,21 @@ app = Flask(__name__)
 node_address = str(uuid4()).replace('-', '')
 
 node_port = os.environ['PORT']
+node_port_out = os.environ['PORT_OUT']
+node_name = os.environ['NODE_NAME']
+
+# frontend template
+#environment = Environment(loader=FileSystemLoader("templates/"))
+#template = environment.get_template("index.html")
 
 # Create blockchain
 blockchain = BuliCoin()
+
+# Show frontend index
+@app.route('/', methods=['GET'])
+def homepage():
+    print(node_port_out)
+    return render_template("index.html", port=node_port_out, name=node_name)
 
 # Mine a new block and add it to the end of the blockchain
 @app.route('/mine_block', methods=['GET'])
@@ -46,7 +59,6 @@ def mine_block():
 
     # Return response as JSON file
     return jsonify(response), 200
-
 
 # Return current blockchain
 @app.route('/get_chain', methods=['GET'])

@@ -6,6 +6,8 @@ services:
     build: ./
     environment:
     - PORT=5000
+    - PORT_OUT=5000
+    - NODE_NAME=RED
     ports:
       - 5000:5000
     volumes:
@@ -18,6 +20,8 @@ services:
     build: ./
     environment:
     - PORT=5000
+    - PORT_OUT=5001
+    - NODE_NAME=GREEN
     ports:
       - 5001:5000
     volumes:
@@ -30,6 +34,8 @@ services:
     build: ./
     environment:
     - PORT=5000
+    - PORT_OUT=5002
+    - NODE_NAME=BLUE
     ports:
       - 5002:5000
     volumes:
