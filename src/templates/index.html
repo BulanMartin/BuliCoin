@@ -13,6 +13,29 @@
     <li>Server name: <font style="color: {{ name }} ">{{ name }}</font></li>
     <li>Server port: {{ port }}</li>
     <li>Current complexity: {{ complexity }} leading zeros</li>
+    <li>Chain length: {{ chain_length }} blocks</li>
+  </ul>
+  <h2>Current blockchain</h2>
+  <ul>
+    {% for block in chain %}
+    <li>Block {{block.index}}
+      <ul>
+        <li>Timestamp: {{ block.timestamp }}</li>
+        <li>Nonce: {{ block.nonce }}</li>
+        <li>Previous hash: {{ block.prev_hash }}</li>
+        <li>Complexity: {{ block.current_complexity }}</li>
+        <li>Transactions:
+          <ul>
+            {% for transaction in block.transactions %}
+            <li>Amount: {{ transaction.amount }}</li>
+            <li>Sender: {{ transaction.sender }}</li>
+            <li>Receiver: {{ transaction.receiver }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+    </li>
+    {% endfor %}
   </ul>
 </body>
 </html>

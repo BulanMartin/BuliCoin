@@ -31,7 +31,9 @@ def homepage():
         "index.html", 
         port=node_port_out, 
         name=node_name,
-        complexity=blockchain.leading_zeros
+        complexity=blockchain.leading_zeros,
+        chain=blockchain.chain,
+        chain_length=len(blockchain.chain)
         )
 
 # Mine a new block and add it to the end of the blockchain
