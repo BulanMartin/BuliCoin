@@ -27,7 +27,12 @@ blockchain = BuliCoin()
 @app.route('/', methods=['GET'])
 def homepage():
     print(node_port_out)
-    return render_template("index.html", port=node_port_out, name=node_name)
+    return render_template(
+        "index.html", 
+        port=node_port_out, 
+        name=node_name,
+        complexity=blockchain.leading_zeros
+        )
 
 # Mine a new block and add it to the end of the blockchain
 @app.route('/mine_block', methods=['GET'])
