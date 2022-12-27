@@ -4,6 +4,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $("#complexity").click(function(){
+        $("#complex_value").load('/complexity');
+      });
+    });
+    $(document).ready(function(){
+      $("#mine_new_block").click(function(){
+        $("#new_block_alert").load('/mine_block');
+      });
+    });
+    </script>
   <title>Buli's blockchain</title>
 </head>
 
@@ -16,9 +29,10 @@
     <li>Chain length: {{ chain_length }} blocks</li>
   </ul>
   <hr>
-  <form action="/mine_block" method="get" target="hiddenFrame">
-    <button type="submit">Mine new block</button>
-  </form> 
+  <button id="mine_new_block">Mine new block</button>
+  <p id="new_block_alert"></p>
+  <button id="complexity">Update complexity</button>
+  <p id="complex_value"></p>
   <hr>
   <h2>Current blockchain</h2>
   <ul>
@@ -42,12 +56,6 @@
     </li>
     {% endfor %}
   </ul>
-
-  <style>
-    .hide { position:absolute; top:-1px; left:-1px; width:1px; height:1px; }
-  </style>
-  
-  <iframe name="hiddenFrame" class="hide"></iframe>
 
 </body>
 </html>
