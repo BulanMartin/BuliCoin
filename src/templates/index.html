@@ -15,6 +15,11 @@
     <li>Current complexity: {{ complexity }} leading zeros</li>
     <li>Chain length: {{ chain_length }} blocks</li>
   </ul>
+  <hr>
+  <form action="/mine_block" method="get" target="hiddenFrame">
+    <button type="submit">Mine new block</button>
+  </form> 
+  <hr>
   <h2>Current blockchain</h2>
   <ul>
     {% for block in chain %}
@@ -37,5 +42,12 @@
     </li>
     {% endfor %}
   </ul>
+
+  <style>
+    .hide { position:absolute; top:-1px; left:-1px; width:1px; height:1px; }
+  </style>
+  
+  <iframe name="hiddenFrame" class="hide"></iframe>
+
 </body>
 </html>
