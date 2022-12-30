@@ -11,9 +11,41 @@
         $("#complex_value").load('/complexity');
       });
     });
+
     $(document).ready(function(){
       $("#mine_new_block").click(function(){
         $("#new_block_alert").load('/mine_block');
+      });
+    });
+
+    $(document).ready(function(){
+      $("#set_complexity").click(function(){
+        $("#new_complex_value").load('/complexity/' + $("#complexity_input").val());
+      });
+    });
+
+    $(document).ready(function(){
+      $("#validate_chain").click(function(){
+        $("#validate_chain_reponse").load('/validate');
+      });
+    });
+
+    $(document).ready(function(){
+      $("#add_transaction").click(function(){
+          $.ajax({
+              type: 'POST',
+              url: '/add_transaction',
+              data: JSON.stringify ({sender: $("#sender").val(), receiver:$("#receiver").val(), amount: $("#amount").val()}),
+              success: function(data) { 
+                $("#transaction_alert").text('Transaction will be added to the next block: ' + 
+                JSON.stringify ({
+                  sender: $("#sender").val(), 
+                  receiver:$("#receiver").val(), 
+                  amount: $("#amount").val()}));   
+              },
+              contentType: "application/json",
+              dataType: 'json'
+          });
       });
     });
     </script>
@@ -30,9 +62,34 @@
   </ul>
   <hr>
   <button id="mine_new_block">Mine new block</button>
-  <p id="new_block_alert"></p>
+  <p id="new_block_alert"></p>  
+
+  <button id="validate_chain">Validate chain</button>
+  <p id="validate_chain_reponse"></p>
+
   <button id="complexity">Update complexity</button>
   <p id="complex_value"></p>
+
+  <label for="complexity_input">Complexity (between 1 and 10): </label>
+  <input type="number" id="complexity_input" name="quantity" min="1" max="10"> 
+  <button id="set_complexity">Set complexity</button>
+  <p id="new_complex_value"></p>
+  <p>
+    <label for="sender">Sender: </label>
+    <input type="text" id="sender">
+  </p>
+  <p>
+    <label for="receiver">Receiver: </label>
+    <input type="text" id="receiver"> 
+  </p>
+  <p>
+    <label for="amount">Amount: </label>
+    <input type="text" id="amount"> 
+  </p>
+  <p>
+    <button id="add_transaction">Add transaction</button>
+  </p>
+  <p id="transaction_alert"></p>
   <hr>
   <h2>Current blockchain</h2>
   <ul>

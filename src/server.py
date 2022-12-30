@@ -16,10 +16,6 @@ node_port = os.environ['PORT']
 node_port_out = os.environ['PORT_OUT']
 node_name = os.environ['NODE_NAME']
 
-# frontend template
-#environment = Environment(loader=FileSystemLoader("templates/"))
-#template = environment.get_template("index.html")
-
 # Create blockchain
 blockchain = BuliCoin()
 
@@ -98,12 +94,12 @@ def set_complexity(leading_zeros = None):
 def validate():
 
     response = {'Chain valid': blockchain.validate(blockchain.chain)}
-
     return jsonify(response), 200
 
 # Add new transaction
 @app.route('/add_transaction', methods=['POST'])
 def add_transaction():
+    print(request.get_data())
     json = request.get_json()
     transaction_keys = ['sender', 'receiver', 'amount']
 
