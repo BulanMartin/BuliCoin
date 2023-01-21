@@ -19,6 +19,18 @@
     });
 
     $(document).ready(function(){
+      $("#get_nodes").click(function(){
+        $("#get_nodes_reponse").load('/get_nodes');
+      });
+    });
+
+    $(document).ready(function(){
+      $("#replace_chain").click(function(){
+        $("#replace_chain_reponse").load('/replace_chain');
+      });
+    });
+
+    $(document).ready(function(){
       $("#set_complexity").click(function(){
         $("#new_complex_value").load('/complexity/' + $("#complexity_input").val());
       });
@@ -50,7 +62,7 @@
     });
 
     $(document).ready(function(){
-      $("#update_blockchain").click(function(){
+      $("#refresh_blockchain").click(function(){
         location.reload();
       });
     });
@@ -73,6 +85,12 @@
   <button id="validate_chain">Validate chain</button>
   <p id="validate_chain_reponse"></p>
 
+  <button id="get_nodes">Get nodes</button>
+  <p id="get_nodes_reponse"></p>
+
+  <button id="replace_chain">Replace chain</button>
+  <p id="replace_chain_reponse"></p>
+
   <button id="complexity">Update complexity</button>
   <p id="complex_value"></p>
 
@@ -92,12 +110,13 @@
     <label for="amount">Amount: </label>
     <input type="text" id="amount"> 
   </p>
+
   <p>
     <button id="add_transaction">Add transaction</button>
   </p>
   <p id="transaction_alert"></p>
   <p>
-    <button id="update_blockchain">Update blockchain</button>
+    <button id="refresh_blockchain">Refresh blockchain</button>
   </p>
   <hr>
   <h2>Current blockchain</h2>
