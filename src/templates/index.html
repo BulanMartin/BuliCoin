@@ -48,6 +48,12 @@
           });
       });
     });
+
+    $(document).ready(function(){
+      $("#update_blockchain").click(function(){
+        location.reload();
+      });
+    });
     </script>
   <title>Buli's blockchain</title>
 </head>
@@ -90,6 +96,9 @@
     <button id="add_transaction">Add transaction</button>
   </p>
   <p id="transaction_alert"></p>
+  <p>
+    <button id="update_blockchain">Update blockchain</button>
+  </p>
   <hr>
   <h2>Current blockchain</h2>
   <ul>
