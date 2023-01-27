@@ -33,22 +33,21 @@
         </div>
         <div class="row">
           <div class="col">
-            <button type="button" class="btn btn-outline-primary" id="mine_new_block">Mine new block</button>
-            <p id="new_block_alert"></p>  
-
-            <button type="button" class="btn btn-outline-primary" id="validate_chain">Validate chain</button>
-            <p id="validate_chain_reponse"></p>
-
-            <button type="button" class="btn btn-outline-primary" id="get_nodes">Get nodes</button>
-            <p id="get_nodes_reponse"></p>
-
-            <button type="button" class="btn btn-outline-primary" id="replace_chain">Replace chain</button>
-            <p id="replace_chain_reponse"></p>
-
-            <button type="button" class="btn btn-outline-primary" id="complexity">Update complexity</button>
-            <p id="complex_value"></p>
-
-            <p id="transaction_alert"></p>
+            <p>
+              <button type="button" class="btn btn-outline-primary" id="mine_new_block">Mine new block</button>
+            </p>
+            <p>
+              <button type="button" class="btn btn-outline-primary" id="validate_chain">Validate chain</button>
+            </p>
+            <p>
+              <button type="button" class="btn btn-outline-primary" id="get_nodes">Get nodes</button>
+            </p>
+            <p>
+              <button type="button" class="btn btn-outline-primary" id="replace_chain">Replace chain</button>
+            </p>
+            <p>
+              <button type="button" class="btn btn-outline-primary" id="complexity">Update complexity</button>
+            </p>
             <p>
               <button type="button" class="btn btn-outline-primary" id="refresh_blockchain">Refresh blockchain</button>
             </p>
@@ -65,7 +64,6 @@
               <hr>
             </div>
             <div class="row">
-              <p id="new_complex_value"></p>
               <p>
                 <label for="sender">Sender: </label>
                 <input type="text" id="sender">
@@ -85,25 +83,29 @@
           </div>
         </div>
         <hr>
-        <h2>Current blockchain</h2>
-        <div class="container rounded blockchain">
+        <h3>API response:</h3>
+        <p id="api_response"></p>
+        <hr>
+        <h3>Current blockchain</h3>
+        <div class="container py-2 my-2 rounded blockchain">
             {% for block in chain %}
-            <div class="container rounded block">
+            <div class="container my-2 py-2 rounded block">
             Block {{block.index}}
               <ul>
                 <li>Timestamp: {{ block.timestamp }}</li>
                 <li>Nonce: {{ block.nonce }}</li>
                 <li>Previous hash: {{ block.prev_hash }}</li>
                 <li>Complexity: {{ block.current_complexity }}</li>
-                <li>Transactions:
-                  <ul>
-                    {% for transaction in block.transactions %}
-                    <li>Amount: {{ transaction.amount }}</li>
-                    <li>Sender: {{ transaction.sender }}</li>
-                    <li>Receiver: {{ transaction.receiver }}</li>
-                    {% endfor %}
-                  </ul>
-                </li>
+                <li>Transactions:</li>
+                {% for transaction in block.transactions %}
+                  <div class="container my-2 py-1 rounded transaction">
+                    <ul>
+                      <li>Amount: {{ transaction.amount }}</li>
+                      <li>Sender: {{ transaction.sender }}</li>
+                      <li>Receiver: {{ transaction.receiver }}</li>
+                    </ul>
+                  </div>
+                {% endfor %}
               </ul>
             </div>
             {% endfor %}
