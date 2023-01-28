@@ -1,4 +1,4 @@
-from blockchain import Blockchain
+from .blockchain import Blockchain
 import datetime
 from urllib.parse import urlparse
 from collections import OrderedDict

@@ -13,8 +13,9 @@ RUN pip install -v -r requirements.txt
 
 COPY ./bulicoin_server /bulicoin_server
 
-WORKDIR /bulicoin_server/flaskr
+#WORKDIR /bulicoin_server/flaskr
 
 EXPOSE 5000
 
-CMD ["python", "server.py"]
+CMD ["flask", "--app", "flaskr", "--debug", "run", "--host=0.0.0.0", "--port=5000"]
+#CMD ["python", "server.py"]
