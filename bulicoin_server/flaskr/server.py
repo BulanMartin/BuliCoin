@@ -8,7 +8,14 @@ import json
 
 # Initiate Flask server
 
-app = Flask(__name__)
+#app = Flask(__name__)
+
+def create_app():
+    app = Flask(__name__)
+
+    return app
+
+app = create_app()
 
 node_address = str(uuid4()).replace('-', '')
 

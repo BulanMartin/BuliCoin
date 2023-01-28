@@ -1,17 +1,19 @@
 FROM python:3.10
 
-WORKDIR /src
+WORKDIR /bulicoin_server
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt /src
+COPY ./requirements.txt /bulicoin_server
 
 RUN pip install --upgrade pip
 
 RUN pip install -v -r requirements.txt
 
-COPY ./src /src
+COPY ./bulicoin_server /bulicoin_server
+
+WORKDIR /bulicoin_server/flaskr
 
 EXPOSE 5000
 

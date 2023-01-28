@@ -11,7 +11,7 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ./src:/src
+      - ./bulicoin_server:/bulicoin_server
     stdin_open: true
     tty: true
 
@@ -25,7 +25,7 @@ services:
     ports:
       - 5001:5000
     volumes:
-      - ./src:/src
+      - ./bulicoin_server:/bulicoin_server
     stdin_open: true
     tty: true
 
@@ -39,7 +39,7 @@ services:
     ports:
       - 5002:5000
     volumes:
-      - ./src:/src
+      - ./bulicoin_server:/bulicoin_server
     stdin_open: true
     tty: true
 
