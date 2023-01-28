@@ -1,11 +1,11 @@
 import pytest
 
 from flask import Flask
-from src import server
+from flaskr import create_app
 
 @pytest.fixture()
 def app():
-    app = server.create_app()
+    app = create_app(testvar=True)
     app.config.update({
         "TESTING": True,
     })
