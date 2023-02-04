@@ -20,7 +20,7 @@ class Blockchain:
 
         block = OrderedDict(
                 {'index': len(self.chain)+1,
-                 'timestamp': str(datetime.datetime.now()),
+                 'timestamp': str(datetime.now()),
                  'nonce': nonce,
                  'prev_hash': prev_hash,
                  'current_complexity': self.leading_zeros
